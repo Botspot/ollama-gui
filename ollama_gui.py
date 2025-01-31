@@ -10,6 +10,7 @@ import urllib.request
 
 from threading import Thread
 from typing import Optional, List, Generator
+from gttk import GTTK
 
 try:
     import tkinter as tk
@@ -651,7 +652,9 @@ class LayoutManager:
 
 def run():
     root = tk.Tk()
-
+    
+    ttk.Style().theme_use('breeze')
+    
     root.title("Ollama GUI")
     root.tk.call('tk', 'appname', 'ollama-gui')
     screen_width = root.winfo_screenwidth()
