@@ -7,8 +7,12 @@
 A very simple ollama GUI, implemented using the built-in Python Tkinter library, with no additional dependencies.
 Provide you with the simplest possible visual Ollama interface.
 
-![ollama-gui-1 2 0](https://github.com/user-attachments/assets/a4bb979b-68a4-4062-b484-7542f2a866e0)
+## This is Botspot's fork for use in the Pi-Apps store.
+Improves the appearance theme on Linux, fixes the taskbar icon, and fixes the blank settings button issue.  
+Go install it from Pi-Apps:  
+[![badge](https://github.com/Botspot/pi-apps/blob/master/icons/badge.png?raw=true)](https://github.com/Botspot/pi-apps)
 
+![ollama-gui-1 2 0](https://github.com/user-attachments/assets/a4bb979b-68a4-4062-b484-7542f2a866e0)
 
 ## 🚀 Features
 ### v1.1.0
