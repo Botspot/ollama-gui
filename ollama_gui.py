@@ -10,7 +10,6 @@ import urllib.request
 
 from threading import Thread
 from typing import Optional, List, Generator
-from gttk import GTTK
 
 try:
     import tkinter as tk
