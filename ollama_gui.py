@@ -368,7 +368,7 @@ class LayoutManager:
         model_select.grid(row=0, column=0)
 
         settings_button = ttk.Button(
-            header_frame, text="⚙️", command=self.show_model_management_window, width=3
+            header_frame, text="Settings", command=self.show_model_management_window
         )
         settings_button.grid(row=0, column=1, padx=(5, 0))
 
