@@ -653,6 +653,7 @@ def run():
     root = tk.Tk()
 
     root.title("Ollama GUI")
+    root.tk.call('tk', 'appname', 'ollama-gui')
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     root.geometry(f"800x600+{(screen_width - 800) // 2}+{(screen_height - 600) // 2}")
