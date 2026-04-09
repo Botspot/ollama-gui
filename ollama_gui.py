@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import json
 import time
@@ -443,8 +444,16 @@ class LayoutManager:
         input_frame.grid(row=3, column=0, sticky="ew", padx=20, pady=(0, 20))
         input_frame.grid_columnconfigure(0, weight=1)
 
+        # Updated user_input with flat relief and a blue highlight border
         user_input = tk.Text(
-            input_frame, font=(self.interface.default_font, 12), height=4, wrap=tk.WORD
+            input_frame, 
+            font=(self.interface.default_font, 12), 
+            height=4, 
+            wrap=tk.WORD,
+            relief="flat",                 # Removes the 3D shaded effect
+            highlightthickness=2,          # Sets the thickness of the border
+            highlightbackground="#CCCCCC", # The border color when the text box is NOT focused (light gray)
+            highlightcolor="#0078D7"       # The nice blue border color when the text box IS focused
         )
         user_input.grid(row=0, column=0, sticky="ew", padx=(0, 10))
         user_input.bind("<Key>", self.interface.handle_key_press)
@@ -540,7 +549,14 @@ class LayoutManager:
         list_action_frame.grid_columnconfigure(0, weight=1)
         list_action_frame.grid_rowconfigure(0, weight=1)
 
-        models_list = tk.Listbox(list_action_frame)
+        # Updated models_list
+        models_list = tk.Listbox(
+            list_action_frame,
+            relief="flat",
+            highlightthickness=1,
+            highlightbackground="#CCCCCC",
+            highlightcolor="#0078D7"
+        )
         models_list.grid(row=0, column=0, sticky="nsew")
 
         scrollbar = ttk.Scrollbar(
@@ -552,7 +568,14 @@ class LayoutManager:
         delete_button = ttk.Button(list_action_frame, text="Delete", command=_delete)
         delete_button.grid(row=0, column=2, sticky="ew", padx=(5, 0))
 
-        log_textbox = tk.Text(management_window)
+        # Updated log_textbox
+        log_textbox = tk.Text(
+            management_window,
+            relief="flat",
+            highlightthickness=1,
+            highlightbackground="#CCCCCC",
+            highlightcolor="#0078D7"
+        )
         log_textbox.grid(row=3, column=0, sticky="nsew", padx=10, pady=(0, 10))
         log_textbox.config(state="disabled")
 
@@ -586,7 +609,14 @@ class LayoutManager:
         
         editor_window.grab_set()
 
-        chat_editor = tk.Text(editor_window)
+        # Updated chat_editor
+        chat_editor = tk.Text(
+            editor_window,
+            relief="flat",
+            highlightthickness=1,
+            highlightbackground="#CCCCCC",
+            highlightcolor="#0078D7"
+        )
         chat_editor.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
         chat_editor.insert(tk.END, inner_label.cget("text"))
 
