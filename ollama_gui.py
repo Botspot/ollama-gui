@@ -487,12 +487,19 @@ class LayoutManager:
 
         management_window = tk.Toplevel(self.interface.root)
         management_window.title("Model Management")
-        screen_width = self.interface.root.winfo_screenwidth()
-        screen_height = self.interface.root.winfo_screenheight()
-        x = int((screen_width / 2) - (400 / 2))
-        y = int((screen_height / 2) - (500 / 2))
-
-        management_window.geometry(f"{400}x{500}+{x}+{y}")
+        
+        # Remove absolute positioning and let the compositor handle it
+        management_window.geometry("400x500")
+        
+        # Tell the window manager this is a dialog tied to the main window
+        management_window.transient(self.interface.root)
+        
+        # Tell the Linux WM to treat this as a dialog/utility (skips taskbar)
+        if platform.system().lower() == "linux":
+            management_window.attributes("-type", "dialog")
+        
+        # Grab focus so the user must interact with this window before returning
+        management_window.grab_set()
 
         management_window.grid_columnconfigure(0, weight=1)
         management_window.grid_rowconfigure(3, weight=1)
@@ -567,13 +574,17 @@ class LayoutManager:
         editor_window = tk.Toplevel(self.interface.root)
         editor_window.title("Chat Editor")
 
-        screen_width = self.interface.root.winfo_screenwidth()
-        screen_height = self.interface.root.winfo_screenheight()
-
-        x = int((screen_width / 2) - (400 / 2))
-        y = int((screen_height / 2) - (300 / 2))
-
-        editor_window.geometry(f"{400}x{300}+{x}+{y}")
+        # Remove absolute positioning
+        editor_window.geometry("400x300")
+        
+        # Assign it as a transient dialog
+        editor_window.transient(self.interface.root)
+        
+        # Tell the Linux WM to treat this as a dialog/utility (skips taskbar)
+        if platform.system().lower() == "linux":
+            editor_window.attributes("-type", "dialog")
+        
+        editor_window.grab_set()
 
         chat_editor = tk.Text(editor_window)
         chat_editor.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
@@ -656,9 +667,7 @@ def run():
     
     root.title("Ollama GUI")
     root.tk.call('tk', 'appname', 'ollama-gui')
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    root.geometry(f"800x600+{(screen_width - 800) // 2}+{(screen_height - 600) // 2}")
+    root.geometry("800x600")
 
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(1, weight=1)
