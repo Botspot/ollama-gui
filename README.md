@@ -1,116 +1,63 @@
-# Ollama-GUI
+# Kappai GUI
 
-![GitHub License](https://img.shields.io/github/license/chyok/ollama-gui)
-![PyPI - Version](https://img.shields.io/pypi/v/ollama-gui)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ollama-gui)
+A simple desktop chat app for [kappai](https://github.com/System64fumo/kappai), a fast local AI inference engine.
+One Python file using only Tkinter, with no other dependencies.
 
-A very simple ollama GUI, implemented using the built-in Python Tkinter library, with no additional dependencies.
-Provide you with the simplest possible visual Ollama interface.
-
-## This is Botspot's fork for use in the Pi-Apps store.
-Improves the appearance theme on Linux, fixes the taskbar icon, and fixes the blank settings button issue.  
-Go install it from Pi-Apps:  
+This is Botspot's fork of [chyok/ollama-gui](https://github.com/chyok/ollama-gui), switched from Ollama to kappai.
+Install it from Pi-Apps:
 [![badge](https://github.com/Botspot/pi-apps/blob/master/icons/badge.png?raw=true)](https://github.com/Botspot/pi-apps)
 
-![ollama-gui-1 2 0](https://github.com/user-attachments/assets/a4bb979b-68a4-4062-b484-7542f2a866e0)
+## Features
 
-## 🚀 Features
-### v1.1.0
-+ 📁 One file project.
-+ 📦 No external dependencies, only **tkinter** which is usually bundled.
-+ 🔍 Auto check ollama model list.
-+ 🌐 Customizable ollama host support.
-+ 💬 Multiple conversations.
-+ 📋 Menu bar and right-click menu.
-+ 🛑 Stop generating at any time.
-### v1.2.0
-+ 🗂️ Model Management: Download and Delete Models.
-+ 🎨 UI Enhancement: Bubble dialog theme.
-+ 📝 Editable Conversation History.
+- Download models from Hugging Face, starting from a short list of recommended models. Models kappai can't run, or that are too large for your RAM, are hidden.
+- Pick a model and the app starts `kappai-server` for you.
+- Streaming replies with basic Markdown: bold, italic, code, headings, lists, quotes and links.
+- Chats are saved automatically and the last one reopens on launch. Temporary chats are never saved.
+- Edit any message. Editing your own message replaces everything below it with a new reply.
+- Select and copy text from any message.
 
-## 📎 Before Start
+## Requirements
 
-We need to set up Ollama service first.
+- Python 3 with Tkinter. On Raspberry Pi OS, Debian or Ubuntu: `sudo apt install python3-tk`
+- kappai, [built from source](https://github.com/System64fumo/kappai#building). The app looks for `kappai-server` in this order:
+  1. the `KAPPAI_SERVER` environment variable, e.g. `KAPPAI_SERVER=/opt/kappai/kappai-server`
+  2. your `PATH`
+  3. `~/kappai/build/kappai-server`
 
-Please refer to:   
-+ [Ollama](https://ollama.com/)  
-+ [Ollama Github](https://github.com/ollama/ollama)
-
-## ⚙️ Run
-
-Choose any way you like:
-> **Note: If you are using a Mac and the system version is Sonoma, please refer to the Q&A at the bottom.**
-
-### source code
+## Run
 
 ```
-python ollama_gui.py
+python3 kappai_gui.py
 ```
 
-### using pip
+Open **Settings** to download your first model.
 
-```
-pip install ollama-gui
-ollama-gui
-```
+## Server options
 
-### binary file
+Settings → **Server options** is passed to `kappai-server`. **Help** next to it lists every option.
+The default is `--device cpu0`, because kappai's OpenGL backend currently crashes in the Raspberry Pi's graphics driver.
+The app always passes `-c 8192` for the context size; add your own `-c` to override it.
 
-| Platform | Download Link                                            | 
-|----------|----------------------------------------------------------|
-| Windows  | [Download](https://github.com/chyok/ollama-gui/releases) |
-| Mac (Apple Silicon)  | [Download](https://github.com/chyok/ollama-gui/releases) |
-| Linux  | [Download](https://github.com/chyok/ollama-gui/releases) |
+## Where things are stored
 
-## 📋 Q&A
-### I'm using a Mac, why does the application sometimes not respond when I click on it?
+| What | Where |
+|---|---|
+| Models | kappai's models folder (`models_dir` in `~/.config/sys64/kappai/tui.conf`), otherwise `~/models` |
+| Chats | `~/.local/share/kappai-gui/chats/`, one JSON file per chat |
+| Settings | `~/.config/kappai-gui/settings.json` |
+| Model list cache | `~/.cache/kappai-gui/` |
 
-The issue affects macOS Sonoma users running applications that use Tcl/Tk versions 8.6.12 or older, including various Python versions.  
-When the mouse cursor is inside the Tkinter window during startup, GUI elements become unresponsive to clicks.
+Models are stored the same way kappai's own downloader stores them, so both tools share one library.
 
-Solution:  
-Update to Tcl/Tk version 8.6.13 or newer, which fixes this problem.   
-  
-For Python users, this can be done by:  
-Using Python 3.11.7 or later, which bundles the fixed Tcl/Tk version.  
-Using Python 3.12 or later, which already includes the fix.  
-https://www.python.org/downloads/macos/
+## Troubleshooting
 
-For other Python versions, installing Tcl/Tk 8.6.13+ separately (e.g., via Homebrew) and ensuring Python uses this version.
+**No module named tkinter**: install Tk for Python:
+`sudo apt install python3-tk` (Debian/Ubuntu), `sudo dnf install python3-tkinter` (Fedora) or `brew install python-tk` (macOS).
 
-Here is the issue: https://github.com/python/cpython/issues/110218
+**kappai-server not found**: see [Requirements](#requirements).
 
-------
-
-### ImportError: No module named 'Tkinter'
-
-This probably happens because the Tk library is not installed.
-
-For Ubuntu or other distros with Apt:
-
-```
-sudo apt-get install python3-tk
-```
-
-For Fedora:
-
-```
-sudo dnf install python3-tkinter
-```
-
-For macOS:
-
-```
-brew install python-tk
-```
-
-For Windows:
-
-make sure to **check in the Python install the optional feature "tcl/tk and IDLE"**.  
-
-Refer to: https://stackoverflow.com/questions/25905540/importerror-no-module-named-tkinter
+**macOS Sonoma: the window ignores clicks at startup**: this is a [Tcl/Tk bug](https://github.com/python/cpython/issues/110218), fixed in Python 3.11.7 and later.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
+[MIT](LICENSE)

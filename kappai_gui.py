@@ -30,7 +30,7 @@ try:
 except (ModuleNotFoundError, ImportError):
     print(
         "Your Python installation does not include the Tk library. \n"
-        "Please refer to https://github.com/Botspot/ollama-gui?tab=readme-ov-file#-qa")
+        "Please refer to https://github.com/Botspot/ollama-gui?tab=readme-ov-file#troubleshooting")
     sys.exit(0)
 
 __version__ = "1.2.1"
