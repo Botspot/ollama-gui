@@ -49,6 +49,20 @@ The app always passes `-c 8192` for the context size; add your own `-c` to overr
 
 Models are stored the same way kappai's own downloader stores them, so both tools share one library.
 
+## Keeping up with kappai
+
+kappai is changing quickly, and some of what it can do is built into this app rather than asked from kappai.
+After a kappai update, these may be out of date until the app is updated too:
+
+| What | If it's out of date | What you can do |
+|---|---|---|
+| Which model types kappai can run | Models kappai has just added support for don't appear in the list or in searches | Search for the model, then type its `owner/repo` into the search box to open it anyway |
+| Which file sizes (quantizations) kappai can load | Newly supported files are hidden, and a file kappai no longer loads may still be listed | Pick a different file of the same model |
+| The default server option `--device cpu0` | Models keep running on the CPU after kappai's graphics backend is fixed, or on a PC with a good GPU | Clear or change it under Settings → Server options |
+| Where kappai keeps its models folder setting | The app falls back to `~/models` and no longer shares a model library with the kappai menu | Type your models folder into the **Models** box at the top of the window |
+| The options used to start `kappai-server` | Choosing a model fails with "kappai-server exited", and the reason is printed in the terminal | Run the app from a terminal to see the error, and check Settings → Server options → **Help** |
+| The Recommended list and model families | Newer models aren't in the Recommended list | Untick **Recommended**, or search for the model by name |
+
 ## Troubleshooting
 
 **No module named tkinter**: install Tk for Python:
